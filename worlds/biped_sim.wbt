@@ -1,0 +1,314 @@
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/GalvanizedMetal.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/BakelitePlastic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/GlossyPaint.proto"
+
+WorldInfo {
+  basicTimeStep 2
+}
+Viewpoint {
+  orientation 0.1347988594669006 0.05274932233729634 -0.9894679259477687 2.4027294111070168
+  position 2.3356477864717085 1.8909957198095646 1.3314395129875427
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 100 100
+}
+Robot {
+  translation 0 0 0.91
+  children [
+    InertialUnit {
+      name "imu"
+    }
+    DEF Left Transform {
+      translation 0.05 -0.1 -0.08
+      children [
+        DEF LeftHip HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "L0_motor"
+              maxVelocity 1000
+              maxTorque 1000
+            }
+            PositionSensor {
+              name "L0_sensor"
+            }
+          ]
+          endPoint Solid {
+            rotation 1 0 0 1.570799693934865
+            children [
+              Transform {
+                translation 0 -3.3671e-07 -0.1
+                rotation 1 0 0 -1.5707996938995747
+                children [
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      minStop -0.8
+                      maxStop 0.8
+                    }
+                    device [
+                      RotationalMotor {
+                        name "L1_motor"
+                        maxVelocity 1000
+                        maxTorque 1000
+                      }
+                      PositionSensor {
+                        name "L1_sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0 0 -0.2
+                      rotation 1 0 0 0
+                      children [
+                        Transform {
+                          translation 0 0 -0.2
+                          children [
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                minStop -2.1
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "L2_motor"
+                                  maxVelocity 1000
+                                  maxTorque 1000
+                                }
+                                PositionSensor {
+                                  name "L2_sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0 0 -0.2
+                                rotation 1 0 0 0
+                                children [
+                                  Transform {
+                                    translation 0 0 -0.2
+                                    children [
+                                      TouchSensor {
+                                        children [
+                                          DEF L_foot Shape {
+                                            appearance BakelitePlastic {
+                                            }
+                                            geometry Sphere {
+                                              radius 0.012
+                                            }
+                                          }
+                                        ]
+                                        name "LF_sensor"
+                                        boundingObject USE L_foot
+                                        physics Physics {
+                                        }
+                                      }
+                                    ]
+                                  }
+                                  DEF L2_Shape Shape {
+                                    appearance GlossyPaint {
+                                    }
+                                    geometry Capsule {
+                                      height 0.34
+                                      radius 0.015
+                                    }
+                                  }
+                                ]
+                                boundingObject USE L2_Shape
+                                physics Physics {
+                                  mass 4
+                                }
+                              }
+                            }
+                          ]
+                        }
+                        DEF L1_Shape Shape {
+                          appearance GlossyPaint {
+                          }
+                          geometry Capsule {
+                            height 0.36
+                            radius 0.015
+                          }
+                        }
+                      ]
+                      boundingObject USE L1_Shape
+                      physics Physics {
+                      }
+                    }
+                  }
+                ]
+              }
+              DEF L0_shape Shape {
+                appearance GalvanizedMetal {
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.025
+                }
+              }
+            ]
+            name "solid(1)"
+            boundingObject USE L0_shape
+            physics Physics {
+              mass 4
+            }
+          }
+        }
+      ]
+    }
+    DEF Right Transform {
+      translation -0.05 -0.1 -0.08
+      children [
+        DEF RightHip HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+          }
+          device [
+            RotationalMotor {
+              name "R0_motor"
+              maxVelocity 1000
+              maxTorque 1000
+            }
+            PositionSensor {
+              name "R0_sensor"
+            }
+          ]
+          endPoint Solid {
+            rotation 1 0 0 1.570799693934865
+            children [
+              Transform {
+                translation 0 -3.70381e-07 -0.11
+                rotation 1 0 0 -1.5707996938995747
+                children [
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      minStop -0.8
+                      maxStop 0.8
+                    }
+                    device [
+                      RotationalMotor {
+                        name "R1_motor"
+                        maxVelocity 1000
+                        maxTorque 1000
+                      }
+                      PositionSensor {
+                        name "R1_sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0 0 -0.2
+                      rotation 1 0 0 0
+                      children [
+                        Transform {
+                          translation 0 0 -0.2
+                          children [
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                minStop -2.1
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "R2_motor"
+                                  maxVelocity 1000
+                                  maxTorque 1000
+                                }
+                                PositionSensor {
+                                  name "R2_sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0 0 -0.2
+                                rotation 1 0 0 0
+                                children [
+                                  Transform {
+                                    translation 0 0 -0.2
+                                    children [
+                                      TouchSensor {
+                                        children [
+                                          DEF R_foot Shape {
+                                            appearance BakelitePlastic {
+                                            }
+                                            geometry Sphere {
+                                              radius 0.012
+                                            }
+                                          }
+                                        ]
+                                        name "RF_sensor"
+                                        boundingObject USE R_foot
+                                        physics Physics {
+                                        }
+                                      }
+                                    ]
+                                  }
+                                  DEF R2_Shape Shape {
+                                    appearance GlossyPaint {
+                                    }
+                                    geometry Capsule {
+                                      height 0.34
+                                      radius 0.015
+                                    }
+                                  }
+                                ]
+                                boundingObject USE R2_Shape
+                                physics Physics {
+                                  mass 4
+                                }
+                              }
+                            }
+                          ]
+                        }
+                        DEF R1_Shape Shape {
+                          appearance GlossyPaint {
+                          }
+                          geometry Capsule {
+                            height 0.36
+                            radius 0.015
+                          }
+                        }
+                      ]
+                      boundingObject USE R1_Shape
+                      physics Physics {
+                        mass 4
+                      }
+                    }
+                  }
+                ]
+              }
+              DEF R0_shape Shape {
+                appearance GalvanizedMetal {
+                }
+                geometry Cylinder {
+                  height 0.05
+                  radius 0.025
+                }
+              }
+            ]
+            boundingObject USE R0_shape
+            physics Physics {
+            }
+          }
+        }
+      ]
+    }
+    DEF Body Shape {
+      appearance BakelitePlastic {
+      }
+      geometry Box {
+        size 0.4 0.3 0.1
+      }
+    }
+  ]
+  name "Biped"
+  boundingObject USE Body
+  physics Physics {
+    density -1
+    mass 50
+  }
+  controller "biped_controller"
+}
