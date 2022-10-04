@@ -6,6 +6,6 @@ maximizedDockId: -1
 centralWidgetVisible: 1
 renderingMode: PLAIN
 orthographicViewHeight: 1
-textFiles: 0 "../../../../../Users/rocket/Program/Simulation/BipedSim/controllers/biped_controller/biped_controller.c" "../../../../../Users/rocket/Program/Simulation/BipedSim/controllers/biped_hopping/biped_hopping.py"
+textFiles: 0 "controllers/biped_controller/biped_controller.c" "controllers/biped_hopping/biped_hopping.py"
 globalOptionalRendering: CoordinateSystem::JointAxes
 consoles: Console:All:All

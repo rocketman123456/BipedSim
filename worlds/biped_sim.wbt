@@ -48,7 +48,7 @@ Robot {
             rotation 1 0 0 1.570799693934865
             children [
               Transform {
-                translation 0 -3.3671e-07 -0.1
+                translation 0 0 -0.1
                 rotation 1 0 0 -1.5707996938995747
                 children [
                   HingeJoint {
@@ -122,7 +122,7 @@ Robot {
                                 ]
                                 boundingObject USE L2_Shape
                                 physics Physics {
-                                  mass 4
+                                  mass 1
                                 }
                               }
                             }
@@ -153,10 +153,9 @@ Robot {
                 }
               }
             ]
-            name "solid(1)"
             boundingObject USE L0_shape
             physics Physics {
-              mass 4
+              mass 1
             }
           }
         }
@@ -257,7 +256,7 @@ Robot {
                                 ]
                                 boundingObject USE R2_Shape
                                 physics Physics {
-                                  mass 4
+                                  mass 1
                                 }
                               }
                             }
@@ -274,7 +273,7 @@ Robot {
                       ]
                       boundingObject USE R1_Shape
                       physics Physics {
-                        mass 4
+                        mass 1
                       }
                     }
                   }

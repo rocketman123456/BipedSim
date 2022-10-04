@@ -17,6 +17,7 @@
 #include "controller.h"
 
 robotTypeDef robot;
+
 //----------------------------------------------------------declaration
 void update_vxd();
 void update_IMU();
@@ -28,6 +29,7 @@ void estimate_vx();
 void create_transJ(matTypeDef *transJ, legNameTypeDef leg);
 void curve(vect2TypeDef *ft, vect2TypeDef *dft, double xT, vect2TypeDef toe0, vect2TypeDef dtoe0);
 void update_toe0_dtoe0();
+
 /*
 机器人参数初始化，在while（1）之前调用
 */
@@ -52,11 +54,11 @@ void robot_init()
     robot.vxd_default = 0.02; //默认前向期望速度
     robot.vxd = 0;
     //------------------------------------------------------------------------模型参数
-    robot.a0 = 0.4;               //大腿连杆长度
-    robot.a1 = 0.4;               //小腿连杆长度
-    robot.m0 = 4;                 //大腿连杆质量
-    robot.m1 = 4;                 //小腿连杆质量
-    robot.M = 58;                 //总质量
+    robot.a0 = 0.4; //大腿连杆长度
+    robot.a1 = 0.4; //小腿连杆长度
+    robot.m0 = 1;   //大腿连杆质量
+    robot.m1 = 1;   //小腿连杆质量
+    robot.M = 54;   //总质量
     //------------------------------------------------------------------------状态区
     robot.t = 0;                  //从一步开始，经过的时间
     robot.st = L;                 //支撑腿
@@ -137,8 +139,8 @@ void robot_control()
     create_transJ(&st_transJ, robot.st);
     easyMat_mult(&st_tau, &st_transJ, &st_f);
     easyMat_mult_k(-1.0, &st_tau);
-    //发送关节力到电机
 
+    //发送关节力到电机
     if (robot.st == L)
     {
         set_motor_torque(L0, st_tau.data[0][0]);
@@ -149,35 +151,44 @@ void robot_control()
         set_motor_torque(R0, st_tau.data[0][0]);
         set_motor_torque(R1, st_tau.data[1][0]);
     }
+
     //释放内存
     easyMat_free(&st_f);
     easyMat_free(&st_transJ);
     easyMat_free(&st_tau);
+
     //-----------------------------------------------------------------摆动相控制
     //求落足点
-
     double xT = robot.vx * robot.Ts / 2.0 + robot.Kvx * (robot.vx - robot.vxd);
+
     //求摆动足实时期望足底坐标与速度
     vect2TypeDef toed, dtoed;
     curve(&toed, &dtoed, xT, robot.toe0, robot.dtoe0);
+
     //求足底力
     matTypeDef sw_f;
     easyMat_create(&sw_f, 2, 1);
 
     double kz;
     if (robot.t <= 0.75 * robot.Tf)
+    {
         kz = robot.ky1;
+    }
     else
+    {
         kz = robot.ky2;
+    }
 
     sw_f.data[0][0] = -(robot.kx * (sw_toe.x - toed.x) + robot.kdx * (robot.dtoe[robot.sw].x - dtoed.x));
     sw_f.data[1][0] = -(kz * (sw_toe.y - toed.y) + robot.kdy * (robot.dtoe[robot.sw].y - dtoed.y));
+
     //求关节力
     matTypeDef sw_transJ, sw_tau;
     easyMat_create(&sw_tau, 2, 1);
     easyMat_create(&sw_transJ, 2, 2);
     create_transJ(&sw_transJ, robot.sw);
     easyMat_mult(&sw_tau, &sw_transJ, &sw_f);
+
     //发送关节力到电机
     if (robot.sw == L)
     {
@@ -189,11 +200,13 @@ void robot_control()
         set_motor_torque(R0, sw_tau.data[0][0]);
         set_motor_torque(R1, sw_tau.data[1][0]);
     }
+
     //释放内存
     easyMat_free(&sw_f);
     easyMat_free(&sw_transJ);
     easyMat_free(&sw_tau);
 }
+
 /*
 通过键盘修改期望速度
 */
@@ -212,6 +225,7 @@ void update_vxd()
         robot.vxd = -robot.vxd_default;
         break;
     }
+    // TODO : add y speed control
     default:
     {
         robot.vxd = 0;
@@ -219,6 +233,7 @@ void update_vxd()
     }
     }
 }
+
 /*
 足底传感器更新
 */
@@ -227,6 +242,7 @@ void update_foot_touch_sensor()
     robot.is_touching[L] = is_foot_touching(L);
     robot.is_touching[R] = is_foot_touching(R);
 }
+
 /*
 IMU与IMU的导数更新
 */
@@ -244,6 +260,7 @@ void update_IMU()
     pre_dpitch = robot.dpitch;
     pre_eulerAngle = eulerAngle;
 }
+
 /*
 更新关节角
 */
@@ -255,10 +272,10 @@ void update_theta()
     robot.theta[R][0] = get_motor_angle(R0);
     robot.theta[R][1] = get_motor_angle(R1);
 }
+
 /*
 相位切换,通过时间和足底传感器确定支撑对角腿和摆动对角腿
 */
-
 void phase_swap()
 {
     if (robot.t > 0.75 * robot.Tf)
@@ -283,6 +300,7 @@ void phase_swap()
         }
     }
 }
+
 /*
 运动学正解
 */
@@ -323,6 +341,7 @@ void forwardKinematics()
         pre_toe[legIdx] = robot.toe[legIdx];
     }
 }
+
 /*
 机器人水平速度估计
 */
@@ -343,6 +362,7 @@ void estimate_vx()
 
     pre_toe = toe;
 }
+
 /*
 更新摆动足的起始位置和起始速度
 */
@@ -364,6 +384,7 @@ void update_toe0_dtoe0()
     }
     pre_st_toe = robot.toe[robot.st];
 }
+
 /*
 足底轨迹
 */
@@ -410,6 +431,7 @@ void curve(vect2TypeDef *ft, vect2TypeDef *dft, double xT, vect2TypeDef toe0, ve
         dft->y = 4 * (z0 - zh) * 2 * t / (Tf * Tf) - 4 * (z0 - zh) / Tf;
     }
 }
+
 /*
 创建力雅可比
 */
