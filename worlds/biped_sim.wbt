@@ -22,7 +22,7 @@ RectangleArena {
   floorSize 100 100
 }
 Robot {
-  translation 0 0 0.91
+  translation 0 0 0.96
   children [
     InertialUnit {
       name "imu"

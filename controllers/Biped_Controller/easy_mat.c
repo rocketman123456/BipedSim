@@ -239,22 +239,16 @@ void easyMat_RPY(matTypeDef *outRot, double roll, double pitch, double yaw)
     easyMat_create(&temp, 3, 3);
 
     easyMat_rotX(&RotX, roll);
-    easyMat_rotY(&RotY, yaw);
-    easyMat_rotZ(&RotZ, pitch);
+    easyMat_rotY(&RotY, pitch);
+    easyMat_rotZ(&RotZ, yaw);
 
-    easyMat_mult(&temp, &RotZ, &RotX);
-    easyMat_mult(outRot, &RotY, &temp);
+    //easyMat_mult(&temp, &RotZ, &RotY);
+    //easyMat_mult(outRot, &RotX, &temp);
+    easyMat_mult(&temp, &RotZ, &RotY);
+    easyMat_mult(outRot, &temp, &RotX);
 
     easyMat_free(&RotX);
     easyMat_free(&RotY);
     easyMat_free(&RotZ);
     easyMat_free(&temp);
-}
-/*
-矩阵求逆
-dstMat = srcMat^(-1)
-*/
-void easyMat_inv(matTypeDef *dstMat, matTypeDef *srcMat)
-{
-    // code
 }

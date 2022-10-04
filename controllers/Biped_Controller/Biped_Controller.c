@@ -14,6 +14,7 @@
 #include <webots/motor.h>
 
 #include "webots_interface.h"
+#include "controller.h"
 
 /*
  * You may want to add macros here.
@@ -43,7 +44,7 @@ int main(int argc, char **argv)
      *  WbDeviceTag my_actuator = wb_robot_get_device("my_actuator");
      */
     webots_device_init();
-    //robot_init();
+    robot_init();
 
     /* main loop
      * Perform simulation steps of TIME_STEP milliseconds
@@ -51,17 +52,17 @@ int main(int argc, char **argv)
      */
     while (wb_robot_step(TIME_STEP) != -1)
     {
-        //updateRobotState();
+        updateRobotState();
 
         wb_motor_set_position(L0_motor, 0.0);
         wb_motor_set_position(L1_motor, +60.0 * PI / 180.0);
-        wb_motor_set_position(L2_motor, -120.0 * PI / 180.0);
+        wb_motor_set_position(L2_motor, -60.0 * PI / 180.0);
 
         wb_motor_set_position(R0_motor, 0.0);
         wb_motor_set_position(R1_motor, +60.0 * PI / 180.0);
-        wb_motor_set_position(R2_motor, -120.0 * PI / 180.0);
+        wb_motor_set_position(R2_motor, -60.0 * PI / 180.0);
 
-        //robot_control();
+        // robot_control();
     };
 
     /* Enter your cleanup code here */
